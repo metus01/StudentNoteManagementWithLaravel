@@ -6,6 +6,9 @@ use App\Models\Fil;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\FilCreateRequest;
+use App\Models\FilMatLink;
+use App\Models\Mat;
+use Illuminate\Contracts\View\View;
 
 class FilController extends Controller
 {
@@ -42,9 +45,16 @@ class FilController extends Controller
      */
     public function show(Fil $fil)
     {
+        $links  = [];
+        $lines = FilMatLink::all()->where('fil_id' , '==' , $fil->id);
+        foreach($lines as $line)
+        {
+            array_push($links , $line);
+        }
         return view('admin.fils.show' ,
         [
-            'fil' => $fil
+            'fil' => $fil,
+            'links' => $links
         ]);
     }
 

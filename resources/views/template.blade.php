@@ -20,12 +20,13 @@
                 <a class="nav-link active" aria-current="page" href="{{ route('auth.login') }}">Login</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link active" href="{{ route('aut.register') }}">Register</a>
+                <a class="nav-link active" href="{{ route('auth.register') }}">Register</a>
               </li>
             </ul>
           </div>
         </div>
       </nav>
 @yield('content')
+<script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
 </body>
 </html>

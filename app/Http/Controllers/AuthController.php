@@ -9,7 +9,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\UserLoginRequest;
 use App\Http\Requests\UserCreateRequest;
+use App\Mail\TestMail;
+use App\Notifications\UserRegisteredNotification;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
@@ -22,8 +25,33 @@ class AuthController extends Controller
         $credentials = $request->validated();
         if(Auth::attempt($credentials))
         {
-            $request->session()->regenerate();
-            return redirect()->intended(route('admin.fil.index'));
+            Mail::to('mcmetus46@gmail.com')->send(new TestMail());
+            if(Auth::check()){
+                $user_id = Auth::id();
+                $user  = User::findOrFail($user_id);
+                if($user->is_admin == true)
+                {
+                    $request->session()->regenerate();
+                    return redirect()->route('admin.fil.index')->with('success' , "Bon retour Admin ");
+                }
+                elseif($user->is_prof == true)
+                {
+                    $request->session()->regenerate();
+                    return redirect()->route('prof.home' ,
+                    [
+                        'username' => $user->name
+                    ])->with('success' , 'Bon retour prof '.$user->name);
+                }else
+                {
+                    $request->session()->regenerate();
+                    return redirect()->route('etudiant.home',
+                    [
+                        'username' => $user->name
+                    ]
+                    )->with('success' , 'Bon retour prof '.$user->name);
+
+                }
+            }
         }
         return back()->withErrors(
             [
@@ -43,7 +71,7 @@ class AuthController extends Controller
     }
     public function doRegister(UserCreateRequest $request)
     {
-        User::create(
+      $user =   User::create(
             [
                 // 'name' => $request->validate('required' , $request->input('name')),
                 // 'lastname' => $request->validate('required' , $request->input('lastname')),
@@ -59,6 +87,12 @@ class AuthController extends Controller
                 'is_admin' => false
             ]
             );
+            //$user->notify(new UserRegisteredNotification());
         return to_route('auth.login')->with('success' , 'You sign up successfuly , let login now');
+    }
+    public function logout()
+    {
+        Auth::logout();
+        return redirect()->route('auth.login')->with('success' , 'Logout Successfuly');
     }
 }

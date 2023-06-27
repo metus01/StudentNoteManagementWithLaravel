@@ -16,6 +16,7 @@ class Fil extends Model
     [
         'name'
     ];
+
     public function mats():BelongsToMany
     {
         return $this->belongsToMany(Mat::class);

@@ -12,7 +12,7 @@
             class="form-control @error($name) is-invalid @enderror"> {{ $value }}</textarea>
     @else
         <input type="{{ $type }}" class="form-control @error($name) is-invalid @enderror"
-            value="{{ old($name, $value) }}" name="{{ $name }}">
+            value="{{ old($name, $value) }}" style="outline:none" name="{{ $name }}">
     @endif
     @error($name)
         <div class="invalid-feedback">

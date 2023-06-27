@@ -18,9 +18,10 @@
                     <td>
                         <div class="d-flex gap-2 w-100 justify-content-end">
                             <a href="{{ route('admin.fil.edit', $fil) }}" class="btn btn-primary">Editer</a>
+                            <a href="{{ route('admin.fil.show', $fil) }}" class="btn btn-secondary">Détails</a>
                             <form action="{{ route('admin.fil.destroy', $fil) }}" method="post">
                                 @csrf
-                                @method('delete')
+                                @method('DELETE')
                                 <button class="btn btn-danger">Supprimer</button>
                             </form>
                         </div>

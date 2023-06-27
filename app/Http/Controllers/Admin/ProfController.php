@@ -28,28 +28,32 @@ class ProfController extends Controller
     {
         return view('admin.profs.create');
     }
+    public function home()
+    {
+        return view('profs.home');
+    }
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(User $prof):View
-    {
-        return view('admin.profs.edit',
-        [
-            'prof' => $prof
-        ]);
-    }
+    // public function edit(User $prof):View
+    // {
+    //     return view('admin.profs.edit',
+    //     [
+    //         'prof' => $prof
+    //     ]);
+    // }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UserCreateRequest $request, User $prof)
-    {
-        $prof->update(
-            [
-                'is_prof' => $request->is_prof
-            ]
-            );
-        return to_route('admin.prof.index')->with('Succes' , 'Année mis à jour avec success');
-    }
+    // /**
+    //  * Update the specified resource in storage.
+    //  */
+    // public function update(UserCreateRequest $request, User $prof)
+    // {
+    //     $prof->update(
+    //         [
+    //             'is_prof' => $request->is_prof
+    //         ]
+    //         );
+    //     return to_route('admin.prof.index')->with('Succes' , 'Année mis à jour avec success');
+    // }
 
 }
